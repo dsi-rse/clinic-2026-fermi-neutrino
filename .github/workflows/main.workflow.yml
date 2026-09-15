@@ -1,0 +1,63 @@
+name: Development Checks
+
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main or dev branches
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+# settings.py requires DATA_DIR, and .env is gitignored, so supply it here.
+env:
+  DATA_DIR: ./data/
+
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout Code Repository
+        # Deliberately without submodules: external/nugraph is upstream code we
+        # neither lint nor test here, and installing the GPU stack in Actions
+        # would make this workflow slow and fragile for no benefit.
+        uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install Dependencies
+        run: uv sync
+
+      - name: Lint with pre-commit
+        run: uv run pre-commit run --all-files
+
+      - name: Run Tests
+        run: uv run pytest
+
+  shell:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      # The SLURM scripts cannot be exercised in CI, but they can at least be
+      # checked for syntax and common shell mistakes before someone burns a
+      # queue slot discovering a typo.
+      - name: Check shell scripts
+        run: |
+          sudo apt-get update && sudo apt-get install -y shellcheck
+          for f in env.sh slurm/*.sh slurm/*.sbatch; do
+            echo "== $f"
+            bash -n "$f"
+            shellcheck --shell=bash --severity=warning "$f"
+          done

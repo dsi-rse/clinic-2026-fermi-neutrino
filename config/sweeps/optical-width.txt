@@ -1,0 +1,13 @@
+# PLACEHOLDER SWEEP -- replace this with the grid you and your mentor agree on.
+#
+# Scans the width of the PMT node embedding, which controls how much optical
+# information the pmt <-> nexus message passing can carry.  The default is 64
+# (see NuGraph3.__init__ in
+# external/nugraph/nugraph/nugraph/models/nugraph3/nugraph3.py).
+#
+# Everything else is held at the defaults so that the only difference between
+# lines is --pmt-features.
+
+--semantic --filter --optical --pmt-features 32
+--semantic --filter --optical --pmt-features 64
+--semantic --filter --optical --pmt-features 128

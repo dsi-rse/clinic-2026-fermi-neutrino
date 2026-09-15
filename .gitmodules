@@ -1,0 +1,4 @@
+[submodule "external/nugraph"]
+	path = external/nugraph
+	url = https://github.com/dsi-rse/NuGraph.git
+	branch = clinic-2026

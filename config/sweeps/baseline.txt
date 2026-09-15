@@ -1,0 +1,14 @@
+# Control comparison: does the optical (PMT) hierarchy help at all, and by how
+# much, holding everything else fixed?
+#
+# This is the reference point every later sweep should be measured against, so
+# run it first and keep the numbers.
+#
+# TODO: confirm with the mentor which decoder heads are the figure of merit for
+# this project before treating these numbers as the baseline.
+
+# 1: TPC only -- no optical information reaches the network
+--semantic --filter
+
+# 2: same, plus the optical hierarchy
+--semantic --filter --optical
