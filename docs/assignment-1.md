@@ -114,7 +114,7 @@ export NUGRAPH_DIR=/net/projects2/fermi2526/clinic-2026-fermi-neutrino-$USER/ext
 source /etc/profile.d/conda.sh
 source /net/projects2/fermi2526/setup-env.sh
 
-uname
+hostname
 python -c 'import torch; print(torch.__version__)'
 ```
 
