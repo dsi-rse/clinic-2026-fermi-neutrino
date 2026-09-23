@@ -69,12 +69,9 @@ to start working.
 Run the following commands to get the software configured:
 
 ```bash
+export NUGRAPH_DIR=/net/projects2/fermi2526/clinic-2026-fermi-neutrino-$USER/external/nugraph
 source /etc/profile.d/conda.sh
-conda activate /net/projects2/fermi2526/conda/nugraph-25-10
-cd /net/projects2/fermi2526/clinic-2026-fermi-neutrino-$USER/external/NuGraph
-export NUGRAPH_LOG=$PWD/logs
-pip install --no-deps -e nugraph/
-pip install --no-deps -e pynuml/
+source /net/projects2/fermi2526/setup-env.sh
 ```
 
 and then test it:
@@ -83,7 +80,7 @@ and then test it:
 python -c 'import torch; print(torch.__version__)'
 ```
 
-You should see **[FIXME: what version should they see?]**
+You should see `2.8.0` (a PyTorch version; if we update it, you'll see a higher number, but the error message if you're not in the environment is `No module named 'torch'`).
 
 ## 5. Set up remote VSCode and run a terminal in it
 
@@ -113,12 +110,9 @@ Use VSCode to make a file named `slurm/quick-test.sbatch` in your copy of the re
 set -eo pipefail
 cd "${SLURM_SUBMIT_DIR:-$PWD}"
 
+export NUGRAPH_DIR=/net/projects2/fermi2526/clinic-2026-fermi-neutrino-$USER/external/nugraph
 source /etc/profile.d/conda.sh
-conda activate /net/projects2/fermi2526/conda/nugraph-25-10
-cd /net/projects2/fermi2526/clinic-2026-fermi-neutrino-$USER/external/NuGraph
-export NUGRAPH_LOG=$PWD/logs
-pip install --no-deps -e nugraph/
-pip install --no-deps -e pynuml/
+source /net/projects2/fermi2526/setup-env.sh
 
 uname
 python -c 'import torch; print(torch.__version__)'
@@ -136,6 +130,6 @@ Check the status of your job with
 squeue -u $USER
 ```
 
-and when it finishes, check the output in the `logs/slurm-quick-test-<jobid>.out` (normal print-outs) and `logs/slurm-quick-test-<jobid>.err` (errors) files that it creates.
+and when it finishes (or before it finishes), check the output in the `logs/slurm-quick-test-<jobid>.out` file that it creates.
 
 Once you've done that, you're done!
