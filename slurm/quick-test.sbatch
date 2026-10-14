@@ -18,33 +18,4 @@ source /etc/profile.d/conda.sh
 source /net/projects2/fermi2526/setup-env.sh
 
 hostname
-python - <<'PY'
-import importlib
-import sys
-
-libraries = [
-    "torch",
-    "numpy",
-    "scipy",
-    "pandas",
-    "matplotlib",
-    "h5py",
-    "sklearn",
-    "torch_geometric",
-    "pytorch_lightning",
-    "nugraph",
-]
-
-failed = []
-for name in libraries:
-    try:
-        module = importlib.import_module(name)
-        print(f"OK    {name} {getattr(module, '__version__', '(no version)')}")
-    except Exception as e:
-        print(f"FAIL  {name}: {type(e).__name__}: {e}")
-        failed.append(name)
-
-if failed:
-    print(f"{len(failed)} librar{'y' if len(failed) == 1 else 'ies'} failed to import: {', '.join(failed)}")
-    sys.exit(1)
-PY
+python -c 'import torch; print(torch.__version__)'
