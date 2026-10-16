@@ -18,4 +18,10 @@ source /etc/profile.d/conda.sh
 source /net/projects2/fermi2526/setup-env.sh
 
 hostname
-python -c 'import torch; print(torch.__version__)'
+python - <<'PY'
+import importlib
+
+for name in ["torch", "torch_geometric", "pytorch_lightning", "numpy", "pandas", "h5py", "matplotlib"]:
+    module = importlib.import_module(name)
+    print(f"{name}: {module.__version__}")
+PY
