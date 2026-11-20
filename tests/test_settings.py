@@ -31,7 +31,7 @@ def test_defaults_are_repo_relative(monkeypatch: pytest.MonkeyPatch) -> None:
     """With nothing exported, NUGRAPH_DIR points at the submodule checkout."""
     settings = _reload_settings(monkeypatch)
     assert settings.NUGRAPH_DIR == settings.PROJECT_ROOT / "external" / "nugraph"
-    assert settings.FERMI_PROJECT_DIR == Path("/net/projects2/fermi2526")
+    assert settings.FERMI_PROJECT_DIR == Path("/net/spaces/clinic/fermi2526")
 
 
 def test_environment_wins(monkeypatch: pytest.MonkeyPatch) -> None:

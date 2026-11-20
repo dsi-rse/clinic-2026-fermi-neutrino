@@ -36,7 +36,7 @@ You should see this message (or one like it):
 _Within the ssh session_, run
 
 ```bash
-cd /net/projects2/fermi2526
+cd /net/spaces/clinic/fermi2526
 ```
 
 If that works (no error message), do
@@ -59,7 +59,7 @@ git clone --recursive https://github.com/dsi-rse/clinic-2026-fermi-neutrino.git 
 This is your copy of the code, separate from everyone else's, so that you don't overwrite other people's work. In the future, when you log in, go to
 
 ```bash
-cd /net/projects2/fermi2526/clinic-2026-fermi-neutrino-$USER/
+cd /net/spaces/clinic/fermi2526/clinic-2026-fermi-neutrino-$USER/
 ```
 
 to start working.
@@ -69,9 +69,8 @@ to start working.
 Run the following commands to get the software configured:
 
 ```bash
-export NUGRAPH_DIR=/net/projects2/fermi2526/clinic-2026-fermi-neutrino-$USER/external/nugraph
-source /etc/profile.d/conda.sh
-source /net/projects2/fermi2526/setup-env.sh
+export NUGRAPH_DIR=/net/spaces/clinic/fermi2526/clinic-2026-fermi-neutrino-$USER/external/nugraph
+source /net/spaces/clinic/fermi2526/setup-env.sh
 ```
 
 and then test it:
@@ -80,7 +79,9 @@ and then test it:
 python -c 'import torch; print(torch.__version__)'
 ```
 
-You should see `2.8.0` (a PyTorch version; if we update it, you'll see a higher number, but the error message if you're not in the environment is `No module named 'torch'`).
+You should see `2.8.0` (a PyTorch version; if we update it, you'll see a higher number, but the error message if you're not in the environment is `No module named 'torch'`). The first import after a login can take a couple of minutes while the shared filesystem warms up; later ones are fast.
+
+Note: `conda` is no longer installed on the cluster, so there is no `conda activate`; `setup-env.sh` puts the shared environment on your `PATH` directly.
 
 ## 5. Set up remote VSCode and run a terminal in it
 
@@ -88,7 +89,7 @@ You'll need VSCode to do your work, but following cluster rules, VSCode needs to
 
 How to do that: https://clinic.ds.uchicago.edu/tutorials/slurm.html#set-up-vs-code-to-use-the-cluster
 
-You'll know that it's working when you can (a) see your /net/projects2/fermi2526/clinic-2026-fermi-neutrino-$USER/ files and (b) run the `python -c 'import torch; print(torch.__version__)'` test in VSCode's internal terminal.
+You'll know that it's working when you can (a) see your /net/spaces/clinic/fermi2526/clinic-2026-fermi-neutrino-$USER/ files and (b) run the `python -c 'import torch; print(torch.__version__)'` test in VSCode's internal terminal.
 
 ## 6. Run a job on the cluster
 
@@ -110,9 +111,8 @@ Use VSCode to make a file named `slurm/quick-test.sbatch` in your copy of the re
 set -eo pipefail
 cd "${SLURM_SUBMIT_DIR:-$PWD}"
 
-export NUGRAPH_DIR=/net/projects2/fermi2526/clinic-2026-fermi-neutrino-$USER/external/nugraph
-source /etc/profile.d/conda.sh
-source /net/projects2/fermi2526/setup-env.sh
+export NUGRAPH_DIR=/net/spaces/clinic/fermi2526/clinic-2026-fermi-neutrino-$USER/external/nugraph
+source /net/spaces/clinic/fermi2526/setup-env.sh
 
 hostname
 python -c 'import torch; print(torch.__version__)'
