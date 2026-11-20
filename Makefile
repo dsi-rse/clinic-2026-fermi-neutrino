@@ -19,7 +19,7 @@ endif
 
 # Name of the conda environment. Override on the command line once the shared
 # environment under $(FERMI_PROJECT_DIR) is available:
-#   make env NUGRAPH_ENV=/net/projects2/fermi2526/envs/nugraph-gpu
+#   make env NUGRAPH_ENV=/net/spaces/clinic/fermi2526/conda/nugraph-25-10
 NUGRAPH_ENV ?= nugraph-gpu
 
 # Port for the TensorBoard server. Pick your own so you don't collide with a

@@ -34,7 +34,7 @@ DATA_DIR = resolve_path(Path(os.environ["DATA_DIR"]))
 
 # Shared project allocation on the DSI cluster.  See docs/cluster.md.
 FERMI_PROJECT_DIR = Path(
-    os.environ.get("FERMI_PROJECT_DIR", "/net/projects2/fermi2526")
+    os.environ.get("FERMI_PROJECT_DIR", "/net/spaces/clinic/fermi2526")
 )
 
 # NuGraph reads exactly these three environment variables; see

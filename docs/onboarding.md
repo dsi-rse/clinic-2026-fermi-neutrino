@@ -21,8 +21,8 @@ up for it.
 - [ ] A DSI cluster account, and SSH set up per the
       [clinic guide](https://github.com/dsi-clinic/the-clinic/blob/main/tutorials/ssh_github_cluster.md).
       Check with `ssh fe.ds`.
-- [ ] Read access to `/net/projects2/fermi2526/`. Check with
-      `ls /net/projects2/fermi2526/`. If that fails, this is a Unix group
+- [ ] Read access to `/net/spaces/clinic/fermi2526/`. Check with
+      `ls /net/spaces/clinic/fermi2526/`. If that fails, this is a Unix group
       membership DSI techstaff must grant — ask now, it is not instant.
 - [ ] Write access to [dsi-rse/NuGraph](https://github.com/dsi-rse/NuGraph),
       since that is where your NuGraph changes get pushed. Check with
@@ -36,8 +36,8 @@ at 20–50 GB and is private to you.
 
 ```bash
 ssh fe.ds
-mkdir -p /net/projects2/fermi2526/$USER
-cd /net/projects2/fermi2526/$USER
+mkdir -p /net/spaces/clinic/fermi2526/$USER
+cd /net/spaces/clinic/fermi2526/$USER
 git clone --recurse-submodules https://github.com/dsi-rse/clinic-2026-fermi-neutrino.git
 cd clinic-2026-fermi-neutrino
 ```
@@ -175,11 +175,11 @@ git merge upstream/main          # or rebase, if your branch is tidy
 ## Still to be settled
 
 - [ ] **Shared conda environment.** One is supposed to exist under
-      `/net/projects2/fermi2526/`. When you find it, set `NUGRAPH_ENV` in
+      `/net/spaces/clinic/fermi2526/`. When you find it, set `NUGRAPH_ENV` in
       `env.sh` to its prefix and delete the `TODO(mentor)` note there, so the
       team stops building individual copies.
 - [ ] **Dataset location.** `env.sh` assumes
-      `/net/projects2/fermi2526/data/uboone-opendata/...`. Confirm against
+      `/net/spaces/clinic/fermi2526/data/uboone-opendata/...`. Confirm against
       what is actually there and update `NUGRAPH_DATA` plus
       [`../data/README.md`](../data/README.md).
 - [ ] **Figure of merit.** See the mentor questions at the end of

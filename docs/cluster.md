@@ -28,22 +28,22 @@ the wrong place for both data and a shared project. Put everything on `/net`:
 
 | Path | Use |
 |---|---|
-| `/net/projects2/fermi2526/` | **this project's shared allocation** (`$FERMI_PROJECT_DIR`) |
-| `/net/projects2/fermi2526/data/` | the graph dataset (`$NUGRAPH_DATA`) — read-only, shared |
-| `/net/projects2/fermi2526/logs/$USER/` | your training logs and checkpoints (`$NUGRAPH_LOG`) |
-| `/net/projects2/fermi2526/$USER/` | your working clone of this repository |
-| `/net/scratch/$USER/` | scratch and `$TMPDIR`. **Ephemeral — may be deleted at any time** |
+| `/net/spaces/clinic/fermi2526/` | **this project's shared allocation** (`$FERMI_PROJECT_DIR`) |
+| `/net/spaces/clinic/fermi2526/data/` | the graph dataset (`$NUGRAPH_DATA`) — read-only, shared |
+| `/net/spaces/clinic/fermi2526/logs/$USER/` | your training logs and checkpoints (`$NUGRAPH_LOG`) |
+| `/net/spaces/clinic/fermi2526/$USER/` | your working clone of this repository |
+| `$HOME/tmp` | `$TMPDIR` (`/net/scratch` no longer exists after the cluster rebuild) |
 | `$HOME` | dotfiles, your micromamba install. Nothing large |
 
 That layout is what `env.sh` assumes. If the actual layout of
-`/net/projects2/fermi2526/` differs, fix `env.sh` — it is the one place these
+`/net/spaces/clinic/fermi2526/` differs, fix `env.sh` — it is the one place these
 paths are written down — rather than working around it per-script.
 
 `env.sh` sets `umask 0007` so files you create on project storage stay
 group-writable and your teammates can read your logs. If you get permission
 errors on someone else's files, that is what went wrong.
 
-If you need access to `/net/projects2/fermi2526/` and don't have it, that is a
+If you need access to `/net/spaces/clinic/fermi2526/` and don't have it, that is a
 Unix group membership that DSI techstaff have to grant — ask early, it is not
 instant.
 
@@ -59,7 +59,7 @@ Two things that will bite you otherwise:
 
 - **`TMPDIR`.** Building this environment unpacks several GB of CUDA wheels
   into `$TMPDIR`, which defaults to a location under your home quota and will
-  fail. `env.sh` points it at `/net/scratch/$USER/tmp`; if you are building the
+  fail. `env.sh` points it at `$HOME/tmp`; if you are building the
   environment *before* sourcing `env.sh`, export it yourself first.
 - **The MPI build of h5py.** `nugraph-gpu.yaml` pins `h5py=*=*mpich*`
   deliberately — `pynuml` opens files with the MPI-IO driver and a plain

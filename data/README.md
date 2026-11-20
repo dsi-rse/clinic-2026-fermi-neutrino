@@ -7,7 +7,7 @@ batch job can read the same copy.
 ## Where it is
 
 ```
-$NUGRAPH_DATA = /net/projects2/fermi2526/data
+$NUGRAPH_DATA = /net/spaces/clinic/fermi2526/data
 $NUGRAPH_DATA/uboone-opendata/uboone-opendata-19be46d89d0f22f5a78641d724c1fedd.gnn.h5
 ```
 
@@ -19,7 +19,7 @@ dataset — if someone hands you a differently-hashed file, it is different data
 and your results are not comparable.
 
 > **To verify:** confirm the path and filename above against what is actually
-> in `/net/projects2/fermi2526/`, and check whether the file includes the
+> in `/net/spaces/clinic/fermi2526/`, and check whether the file includes the
 > optical hierarchy (`ophit`, `pmt`, `flash` node types) that this project
 > needs. Update this file and `NUGRAPH_DATA` in `env.sh` if it differs.
 

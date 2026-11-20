@@ -5,7 +5,7 @@ the final report, a sweep comparison you want to keep.
 
 Large artifacts do not go here. Checkpoints, TensorBoard logs and inference
 dumps belong under `$NUGRAPH_LOG` on the cluster's project storage
-(`/net/projects2/fermi2526/logs/$USER/`), and `.gitignore` blocks the usual file
+(`/net/spaces/clinic/fermi2526/logs/$USER/`), and `.gitignore` blocks the usual file
 types anywhere in the repo.
 
 Generated figures (`*.png`, `*.pdf`, `*.html`) are gitignored too — commit the

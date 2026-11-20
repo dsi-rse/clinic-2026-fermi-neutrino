@@ -23,17 +23,16 @@ export CLINIC_ROOT
 # ---------------------------------------------------------------------------
 # Everything big -- data, logs, checkpoints, working clones -- lives here and
 # not in $HOME, which is capped at 20-50 GB.  See docs/cluster.md.
-export FERMI_PROJECT_DIR="${FERMI_PROJECT_DIR:-/net/projects2/fermi2526}"
+export FERMI_PROJECT_DIR="${FERMI_PROJECT_DIR:-/net/spaces/clinic/fermi2526}"
 
 # ---------------------------------------------------------------------------
 # Conda environment
 # ---------------------------------------------------------------------------
-# TODO(mentor): a conda environment for this project already exists somewhere
-# under $FERMI_PROJECT_DIR.  Once you can see it, set NUGRAPH_ENV to its
-# on-disk prefix (e.g. "$FERMI_PROJECT_DIR/envs/nugraph-gpu") so that everyone
-# on the team shares one environment instead of building their own.  Until
-# then this falls back to a per-user environment created by `make env`.
-NUGRAPH_ENV="${NUGRAPH_ENV:-nugraph-gpu}"
+# The shared environment (torch, nugraph, pynuml) lives in the project area.
+# The cluster rebuild removed conda/micromamba from the system, but the
+# environment is a complete prefix, so env.sh falls back to putting its bin/
+# directory on PATH when no conda is available.
+NUGRAPH_ENV="${NUGRAPH_ENV:-$FERMI_PROJECT_DIR/conda/nugraph-25-10}"
 export NUGRAPH_ENV
 
 if [ -z "${CLINIC_SKIP_ACTIVATE:-}" ]; then
@@ -44,9 +43,13 @@ if [ -z "${CLINIC_SKIP_ACTIVATE:-}" ]; then
         # shellcheck disable=SC1091
         eval "$(conda shell.bash hook)"
         conda activate "$NUGRAPH_ENV"
+    elif [ -x "$NUGRAPH_ENV/bin/python" ]; then
+        # No conda on this machine: activate the prefix by hand.
+        export CONDA_PREFIX="$NUGRAPH_ENV"
+        export CONDA_DEFAULT_ENV="$NUGRAPH_ENV"
+        export PATH="$NUGRAPH_ENV/bin:$PATH"
     else
-        echo "env.sh: no micromamba or conda found; skipping activation." >&2
-        echo "        See docs/onboarding.md to install micromamba." >&2
+        echo "env.sh: no micromamba or conda found, and $NUGRAPH_ENV is not an environment." >&2
     fi
 
     # conda and micromamba only *warn* when an environment does not exist, so
@@ -54,7 +57,7 @@ if [ -z "${CLINIC_SKIP_ACTIVATE:-}" ]; then
     # fail much later in a far more confusing place.  Returning non-zero makes
     # the `set -e` in the slurm/ scripts stop the job here instead.
     # NUGRAPH_ENV may be a name ("nugraph-gpu") or a prefix path
-    # ("/net/projects2/fermi2526/envs/nugraph-gpu"); accept either.
+    # ("/net/spaces/clinic/fermi2526/conda/nugraph-25-10"); accept either.
     if [ "${CONDA_DEFAULT_ENV:-}" != "$NUGRAPH_ENV" ] &&
        [ "${CONDA_PREFIX:-}" != "$NUGRAPH_ENV" ] &&
        [ "$(basename "${CONDA_PREFIX:-none}")" != "$(basename "$NUGRAPH_ENV")" ]; then
@@ -87,7 +90,7 @@ export PYTHONPATH="$NUGRAPH_DIR/nugraph:$NUGRAPH_DIR/pynuml:$CLINIC_ROOT/src${PY
 # Shared-cluster hygiene
 # ---------------------------------------------------------------------------
 # Building a conda environment or unpacking wheels in $HOME will blow the quota.
-export TMPDIR="${TMPDIR:-/net/scratch/$USER/tmp}"
+export TMPDIR="${TMPDIR:-$HOME/tmp}"
 mkdir -p "$TMPDIR" 2>/dev/null || true
 
 # Project storage is group-shared; keep new files group-writable so your
